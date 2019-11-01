@@ -126,7 +126,15 @@ class DownloadSingleHtmlCommand extends Command
                 base64_encode($this->cachedRequest($imageUri))
             );
 
-            $image->getNode()->setAttribute('src', $base64);
+            $node = $image->getNode();
+            $parent = $node->parentNode;
+            $node->setAttribute('src', $base64);
+
+            // Remove wrapping <a tag
+            if ($parent->nodeName === 'a') {
+                $parent->parentNode->insertBefore($node, $parent);
+                $parent->parentNode->removeChild($parent);
+            }
         }
     }
 
