@@ -1,0 +1,24 @@
+{
+    "name": "j6s/shape-up-downloader",
+    "description": "Downloads basecamps shape-up in other formats",
+    "type": "project",
+    "license": ["MIT"],
+    "require": {
+        "php": "^7.2",
+        "symfony/console": "^4.3",
+        "symfony/dom-crawler": "^4.3",
+        "symfony/css-selector": "^4.3",
+        "symfony/cache": "^4.3"
+    },
+    "authors": [
+        {
+            "name": "Johannes Hertenstein",
+            "email": "hello@j6s.dev"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "J6s\\ShapeUpDownloader\\": "src"
+        }
+    }
+}
