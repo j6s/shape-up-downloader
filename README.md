@@ -17,6 +17,16 @@ however trips up most converting software.
 Thus, this project was born to download and combine all web documents into a single self-contained file without styling.
 You are not intended to read the book in that HTML format - but it can be used as a basis for further conversion steps.
 
+To convert the file into more useful formats I recommend using calibres `ebook-convert` utility:
+```bash
+$ ebook-convert shape-up.html shape-up.epub \
+    --authors "Ryan Singer" \
+    --title "Shape Up: Stop Running in Circles and Ship Work that Matters" \
+    --book-producer "Basecamp" \
+    --publisher "Basecamp" \
+    --language "en"
+```
+
 ## Where can I download this HTML/EPUB/MOBI single page version?
 I am not quite sure about the legal implications of hosting these files - thus I am not doing it.
 The code to download it yourself is here, but you must use it yourself.
