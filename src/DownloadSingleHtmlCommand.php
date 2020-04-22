@@ -13,7 +13,7 @@ class DownloadSingleHtmlCommand extends Command
 {
     protected $cache;
     protected static $defaultName = 'download:single-html';
-    protected $indexUrl = 'https://basecamp.com/shapeup';
+    protected $indexUrl = 'https://basecamp.com/shapeup/webbook';
     protected $urls = [
         'https://basecamp.com/shapeup/0.1-foreword',
         'https://basecamp.com/shapeup/0.2-acknowledgements',
