@@ -33,9 +33,10 @@ The code to download it yourself is here, but you must use it yourself.
 
 ## Usage
 
-There is a single command:
-```
-$ php cli.php download:single-html
-```
-it will create a `shape-up.html` file in your current directory.
+1. [Install PHP](https://www.php.net/manual/en/install.php)
+2. [Install Composer](https://getcomposer.org/download/)
+3. Run `php composer.phar install` (or `composer install` in case composer is installed globally)
+4. Run `php cli.php download:single-html`
+
+This will create a `shape-up.html` file in your current directory.
 That's it.
