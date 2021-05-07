@@ -40,3 +40,14 @@ The code to download it yourself is here, but you must use it yourself.
 
 This will create a `shape-up.html` file in your current directory.
 That's it.
+
+## Docker way
+
+There is a way to not deal with php at all. For that it is enough to have docker engine installed.
+
+Usage
+```
+docker build -t shapeup .
+docker run -it --rm -v $(pwd)/output:/app/output shapeup epub
+```
+On the go it downloads singe html and converts it to the format chosen. All the available formats are there https://manual.calibre-ebook.com/generated/en/ebook-convert.html. The approach has been tested with azw3, fb2 and epub options
