@@ -32,6 +32,7 @@ I am not quite sure about the legal implications of hosting these files - thus I
 The code to download it yourself is here, but you must use it yourself.
 
 ## Usage
+### Local PHP
 
 1. [Install PHP](https://www.php.net/manual/en/install.php)
 2. [Install Composer](https://getcomposer.org/download/)
@@ -41,13 +42,13 @@ The code to download it yourself is here, but you must use it yourself.
 This will create a `shape-up.html` file in your current directory.
 That's it.
 
-## Docker way
+### Docker way
 
 There is a way to not deal with php at all. For that it is enough to have docker engine installed.
 
 Usage
 ```
-docker build -t shapeup .
-docker run -it --rm -v $(pwd)/output:/app/output shapeup epub
+docker run -it --rm -v $(pwd)/output:/app/output thej6s/shape-up-downloader
+
 ```
-On the go it downloads singe html and converts it to the format chosen. All the available formats are there https://manual.calibre-ebook.com/generated/en/ebook-convert.html. The approach has been tested with azw3, fb2 and epub options
+This will create a `shape-up.html` file in ./output directory
