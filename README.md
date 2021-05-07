@@ -32,6 +32,7 @@ I am not quite sure about the legal implications of hosting these files - thus I
 The code to download it yourself is here, but you must use it yourself.
 
 ## Usage
+### Local PHP
 
 1. [Install PHP](https://www.php.net/manual/en/install.php)
 2. [Install Composer](https://getcomposer.org/download/)
@@ -40,3 +41,14 @@ The code to download it yourself is here, but you must use it yourself.
 
 This will create a `shape-up.html` file in your current directory.
 That's it.
+
+### Docker way
+
+There is a way to not deal with php at all. For that it is enough to have docker engine installed.
+
+Usage
+```
+docker run -it --rm -v $(pwd)/output:/app/output thej6s/shape-up-downloader
+
+```
+This will create a `shape-up.html` file in ./output directory
