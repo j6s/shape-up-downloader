@@ -46,7 +46,7 @@ class DownloadSingleHtmlCommand extends Command
         $this->chapterContentExtractor = $chapterContentExtractor;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): void
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $overviewPage = $this->queryService->getDocument(self::INDEX_URL);
         $urls = $this->tocExtractor->extractChapterUrls($overviewPage, self::BASE_URL);
@@ -71,6 +71,8 @@ class DownloadSingleHtmlCommand extends Command
 
         $progress->finish();
         file_put_contents('shape-up.html', $body);
+
+        return 0;
     }
 
     private function getStyle(): string
