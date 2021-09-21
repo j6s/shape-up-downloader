@@ -4,11 +4,13 @@
     "type": "project",
     "license": ["MIT"],
     "require": {
-        "php": "^7.2",
+        "php": "^7.4",
         "symfony/console": "^4.3",
         "symfony/dom-crawler": "^4.3",
         "symfony/css-selector": "^4.3",
-        "symfony/cache": "^4.3"
+        "symfony/cache": "^4.3",
+        "thecodingmachine/safe": "^1.3",
+        "ext-dom": "*"
     },
     "authors": [
         {
@@ -20,5 +22,13 @@
         "psr-4": {
             "J6s\\ShapeUpDownloader\\": "src"
         }
+    },
+    "config": {
+        "platform": {
+            "php": "7.4.23"
+        }
+    },
+    "require-dev": {
+        "vimeo/psalm": "^4.10"
     }
 }

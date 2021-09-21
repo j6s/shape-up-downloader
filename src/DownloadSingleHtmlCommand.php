@@ -2,19 +2,25 @@
 
 namespace J6s\ShapeUpDownloader;
 
+use Generator;
+use Symfony\Component\Cache\Adapter\AbstractAdapter;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DomCrawler\Crawler;
+use function Safe\preg_replace;
 
 class DownloadSingleHtmlCommand extends Command
 {
-    protected $cache;
     protected static $defaultName = 'download:single-html';
-    protected $indexUrl = 'https://basecamp.com/shapeup/webbook';
-    protected $urls = [
+
+    protected AbstractAdapter $cache;
+    protected string $indexUrl = 'https://basecamp.com/shapeup/webbook';
+
+    /** @var string[] */
+    protected array $urls = [
         'https://basecamp.com/shapeup/0.1-foreword',
         'https://basecamp.com/shapeup/0.2-acknowledgements',
         'https://basecamp.com/shapeup/0.3-chapter-01',
@@ -46,7 +52,7 @@ class DownloadSingleHtmlCommand extends Command
         $this->cache = new FilesystemAdapter();
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): void
     {
         $progress = new ProgressBar($output);
         $progress->start(\count($this->urls));
@@ -59,7 +65,7 @@ class DownloadSingleHtmlCommand extends Command
             $title = $this->extractTitle($document);
             $content = $this->extractContent($document);
 
-            $body .= $title;
+            $body .= (string) $title;
             $body .= $content;
             file_put_contents('shape-up.html', $body);
             $progress->advance();
@@ -69,8 +75,13 @@ class DownloadSingleHtmlCommand extends Command
         file_put_contents('shape-up.html', $body);
     }
 
-    private function extractTitle(Crawler $document): string
+    private function extractTitle(Crawler $document): ?string
     {
+        $uri = $document->getUri();
+        if ($uri === null) {
+            return null;
+        }
+
         $chapterNumberElement = $document->filter('.intro__masthead');
         $chapterNumber = $chapterNumberElement->count() > 0 ? $chapterNumberElement->text() : '';
 
@@ -79,7 +90,7 @@ class DownloadSingleHtmlCommand extends Command
 
         return sprintf(
             '<h1 id="%s">%s %s</h1>',
-            $this->urlToInternal($document->getUri()),
+            $this->urlToInternal($uri),
             $chapterNumber,
             $title
         );
@@ -93,6 +104,9 @@ class DownloadSingleHtmlCommand extends Command
         $this->replaceLinksWithInternalOnes($document);
 
         foreach ($document->filter('.content')->children() as $child) {
+            if (!($child instanceof \DOMElement) || !($child->ownerDocument instanceof \DOMNode)) {
+                continue;
+            }
             if ($child->tagName !== 'template' && $child->tagName !== 'footer' && $child->tagName !== 'nav') {
                 $body .= $child->ownerDocument->saveXML($child);
             }
@@ -132,7 +146,7 @@ class DownloadSingleHtmlCommand extends Command
             $node->setAttribute('src', $base64);
 
             // Remove wrapping <a tag
-            if ($parent->nodeName === 'a') {
+            if ($parent && $parent->parentNode && $parent->nodeName === 'a') {
                 $parent->parentNode->insertBefore($node, $parent);
                 $parent->parentNode->removeChild($parent);
             }
@@ -144,12 +158,13 @@ class DownloadSingleHtmlCommand extends Command
         foreach ($document->filter('a')->links() as $link) {
             $uri = trim($link->getUri(), '/');
 
+            $index = strpos($uri, '#');
             if (in_array($uri, $this->urls)) {
                 // If it is a link to another page in this document
                 $uri = '#' . $this->urlToInternal($uri);
-            } elseif (strpos($uri, '#') !== false) {
+            } elseif ($index !== false) {
                 // If it already is a hash-based link
-                $uri = substr($uri, strpos($uri, '#'));
+                $uri = substr($uri, $index);
             }
 
 
@@ -160,7 +175,7 @@ class DownloadSingleHtmlCommand extends Command
     private function urlToInternal(string $url): string
     {
         $url = str_replace('https://basecamp.com/', '', $url);
-        return preg_replace('/\W+/', '-', $url);
+        return $this->regexReplace('/\W+/', '-', $url);
     }
 
     private function toc(): string
@@ -170,14 +185,16 @@ class DownloadSingleHtmlCommand extends Command
         return $document->filter('.toc')->html();
     }
 
-    private function fullDocuments(): \Generator
+    /**
+     * @return Generator<Crawler>
+     */
+    private function fullDocuments(): Generator
     {
         foreach ($this->urls as $url) {
-            $dom = new Crawler(
+            yield new Crawler(
                 $this->cachedRequest($url),
                 $url
             );
-            yield $dom;
         }
     }
 
@@ -199,9 +216,20 @@ class DownloadSingleHtmlCommand extends Command
 
     private function cachedRequest(string $url): string
     {
-        $key = preg_replace('/\W/', '-', $url);
-        return $this->cache->get($key, function() use ($url) {
+        $key = $this->regexReplace('/\W/', '-', $url);
+        return (string) $this->cache->get($key, function() use ($url) {
             return file_get_contents($url);
         });
+    }
+
+    private function regexReplace(string $pattern, string $replacement, string $subject): string
+    {
+        $result = preg_replace($pattern, $replacement, $subject);
+
+        if (is_string($result)) {
+            return $result;
+        }
+
+        return implode($replacement);
     }
 }
