@@ -65,6 +65,7 @@ class DownloadSingleHtmlCommand extends Command
 
     private function getStyle(): string
     {
-        return file_get_contents(__DIR__ . '/../style.css');
+        $css = file_get_contents(__DIR__ . '/../style.css');
+        return sprintf('<style>%s</style>', $css);
     }
 }
