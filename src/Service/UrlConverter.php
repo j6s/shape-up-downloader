@@ -7,12 +7,9 @@ use function Safe\preg_replace;
 
 class UrlConverter
 {
-    private RegexService $regex;
-
-    public function __construct(RegexService $regex)
-    {
-        $this->regex = $regex;
-    }
+    public function __construct(
+        private RegexService $regex
+    ) { }
 
     public function urlToInternal(string $url): string
     {

@@ -9,11 +9,9 @@ use function Safe\preg_replace;
 
 class ReplaceLinksWithInternalLinksModifier implements PageContentModifier
 {
-    private UrlConverter $urlConverter;
-    public function __construct(UrlConverter $urlConverter)
-    {
-        $this->urlConverter = $urlConverter;
-    }
+    public function __construct(
+        private UrlConverter $urlConverter
+    ) { }
 
     public function modify(Crawler $document, array $urls): Crawler
     {

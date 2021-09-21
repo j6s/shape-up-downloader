@@ -8,12 +8,10 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class ChapterContentExtractor
 {
-    private UrlConverter $urlConverter;
 
-    public function __construct(UrlConverter $urlConverter)
-    {
-        $this->urlConverter = $urlConverter;
-    }
+    public function __construct(
+        private UrlConverter $urlConverter
+    ) { }
 
     public function extractTitle(Crawler $document): string
     {

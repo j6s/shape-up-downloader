@@ -15,12 +15,9 @@ class ReplaceImagesWithBase64VersionsModifier implements PageContentModifier
         '/\\.gif/' => 'image/gif',
     ];
 
-    private QueryService $queryService;
-
-    public function __construct(QueryService $queryService)
-    {
-        $this->queryService = $queryService;
-    }
+    public function __construct(
+        private QueryService $queryService
+    ) { }
 
     public function modify(Crawler $document, array $urls): Crawler
     {

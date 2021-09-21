@@ -11,13 +11,10 @@ use function Safe\preg_replace;
 
 class QueryService
 {
-    private AbstractAdapter $cache;
-    private RegexService $regex;
-
-    public function __construct(AbstractAdapter $cache, RegexService $regex) {
-        $this->cache = $cache;
-        $this->regex = $regex;
-    }
+    public function __construct(
+        private AbstractAdapter $cache,
+        private RegexService $regex
+    ) { }
 
     public function getDocument(string $url): Crawler
     {

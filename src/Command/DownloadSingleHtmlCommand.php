@@ -22,28 +22,16 @@ class DownloadSingleHtmlCommand extends Command
 {
     private const BASE_URL = 'https://basecamp.com';
     private const INDEX_URL = self::BASE_URL . '/shapeup/webbook';
-
     protected static $defaultName = 'download:single-html';
 
-    protected AbstractAdapter $cache;
-    private QueryService $queryService;
-    private TableOfContentsExtractor $tocExtractor;
-    private PageContentModifier $contentModifier;
-    private ChapterContentExtractor $chapterContentExtractor;
-
     public function __construct(
-        QueryService                          $queryService,
-        AbstractAdapter                       $cache,
-        PageContentModifier $contentModifier,
-        TableOfContentsExtractor              $tocExtractor,
-        ChapterContentExtractor $chapterContentExtractor
+        private QueryService             $queryService,
+        protected AbstractAdapter        $cache,
+        private PageContentModifier      $contentModifier,
+        private TableOfContentsExtractor $tocExtractor,
+        private ChapterContentExtractor $chapterContentExtractor
     ) {
         parent::__construct();
-        $this->queryService = $queryService;
-        $this->cache = $cache;
-        $this->tocExtractor = $tocExtractor;
-        $this->contentModifier = $contentModifier;
-        $this->chapterContentExtractor = $chapterContentExtractor;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

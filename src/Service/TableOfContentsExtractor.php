@@ -6,12 +6,9 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class TableOfContentsExtractor
 {
-    private UrlConverter $urlConverter;
-
-    public function __construct(UrlConverter $urlConverter)
-    {
-        $this->urlConverter = $urlConverter;
-    }
+    public function __construct(
+        private UrlConverter $urlConverter
+    ) { }
 
     public function extractTableOfContentsHtml(Crawler $document, array $urls): string
     {

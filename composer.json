@@ -4,7 +4,7 @@
     "type": "project",
     "license": ["MIT"],
     "require": {
-        "php": "^7.4",
+        "php": "^8.0",
         "symfony/console": "^5.3",
         "symfony/dom-crawler": "^5.3",
         "symfony/css-selector": "^5.3",
@@ -28,7 +28,7 @@
     },
     "config": {
         "platform": {
-            "php": "7.4.23"
+            "php": "8.0.10"
         }
     },
     "require-dev": {
