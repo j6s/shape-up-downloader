@@ -13,11 +13,28 @@
             resource="./"
         />
 
+        <!-- Page Content Modifiers -->
+        <service id="J6s\ShapeUpDownloader\ContentModifier\PageContentModifierCollection">
+            <argument
+                key="$modifiers"
+                type="tagged"
+                tag="j6s.shape_up_downloader.content_modifier"
+            />
+        </service>
+        <prototype
+            namespace="J6s\ShapeUpDownloader\ContentModifier\"
+            resource="./ContentModifier/*Modifier.php"
+        >
+            <tag name="j6s.shape_up_downloader.content_modifier" />
+        </prototype>
+
+        <!-- Aliases -->
         <service
             id="J6s\ShapeUpDownloader\ContentModifier\PageContentModifier"
             alias="J6s\ShapeUpDownloader\ContentModifier\PageContentModifierCollection"
         />
 
+        <!-- Tags -->
         <service id="J6s\ShapeUpDownloader\Command\DownloadSingleHtmlCommand">
             <tag name="console.command" />
         </service>

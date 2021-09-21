@@ -7,7 +7,7 @@
     ignoreInternalFunctionFalseReturn="false"
     ignoreInternalFunctionNullReturn="false"
     findUnusedVariablesAndParams="true"
-    phpVersion="7.4"
+    phpVersion="8.0"
 
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns="https://getpsalm.org/schema/config"

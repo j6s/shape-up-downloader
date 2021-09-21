@@ -6,19 +6,10 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class PageContentModifierCollection implements PageContentModifier
 {
-    /** @var PageContentModifier[] */
-    private array $modifiers;
-
-    // TODO Use service tag here
+    /** @param iterable<PageContentModifier> $modifiers */
     public function __construct(
-        ReplaceImagesWithBase64VersionsModifier $replaceImagesWithBase64VersionsModifier,
-        ReplaceLinksWithInternalLinksModifier $replaceLinksWithInternalLinksModifier
-    ){
-        $this->modifiers = [
-            $replaceImagesWithBase64VersionsModifier,
-            $replaceLinksWithInternalLinksModifier
-        ];
-    }
+        private iterable $modifiers
+    ) { }
 
     public function modify(Crawler $document, array $urls): Crawler
     {
