@@ -6,7 +6,7 @@ WORKDIR /app
 RUN composer install --no-dev --optimize-autoloader
 
 FROM php:8.0
-WORKDIR /app
+RUN echo 'memory_limit = -1' >> /usr/local/etc/php/conf.d/docker-php-memlimit.ini
 
 COPY --from=composer_install /app /app
 COPY ./ /app
