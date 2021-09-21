@@ -13,10 +13,20 @@
             resource="./"
         />
 
+        <service
+            id="J6s\ShapeUpDownloader\ContentModifier\PageContentModifier"
+            alias="J6s\ShapeUpDownloader\ContentModifier\PageContentModifierCollection"
+        />
+
         <service id="J6s\ShapeUpDownloader\Command\DownloadSingleHtmlCommand">
             <tag name="console.command" />
         </service>
 
+        <!-- External services -->
+        <service
+            id="Symfony\Component\Cache\Adapter\AbstractAdapter"
+            class="Symfony\Component\Cache\Adapter\FilesystemAdapter"
+        />
     </services>
 
 </container>
