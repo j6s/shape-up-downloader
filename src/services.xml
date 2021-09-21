@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services https://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <defaults
+                autowire="true"
+                public="true"
+        />
+        <prototype
+                namespace="J6s\ShapeUpDownloader\"
+                resource="./"
+        />
+
+        <!-- Page Content Modifiers -->
+        <service id="J6s\ShapeUpDownloader\ContentModifier\PageContentModifierCollection">
+            <argument
+                    key="$modifiers"
+                    type="tagged"
+                    tag="j6s.shape_up_downloader.content_modifier"
+            />
+        </service>
+        <prototype
+                namespace="J6s\ShapeUpDownloader\ContentModifier\"
+                resource="./ContentModifier/*Modifier.php"
+        >
+            <tag name="j6s.shape_up_downloader.content_modifier"/>
+        </prototype>
+
+        <!-- Aliases -->
+        <service
+                id="J6s\ShapeUpDownloader\ContentModifier\PageContentModifier"
+                alias="J6s\ShapeUpDownloader\ContentModifier\PageContentModifierCollection"
+        />
+
+        <!-- Tags -->
+        <service id="J6s\ShapeUpDownloader\Command\DownloadSingleHtmlCommand">
+            <tag name="console.command"/>
+        </service>
+
+        <!-- External services -->
+        <service
+                id="Symfony\Component\Cache\Adapter\AbstractAdapter"
+                class="Symfony\Component\Cache\Adapter\FilesystemAdapter"
+        />
+    </services>
+
+</container>
