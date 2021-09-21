@@ -1,9 +1,11 @@
-<?php declare(strict_types=1);
+<?php
 
+declare(strict_types=1);
 
 namespace J6s\ShapeUpDownloader\Service;
 
-
+use DOMElement;
+use DOMNode;
 use Symfony\Component\DomCrawler\Crawler;
 
 class ChapterContentExtractor
@@ -11,7 +13,8 @@ class ChapterContentExtractor
 
     public function __construct(
         private UrlConverter $urlConverter
-    ) { }
+    ) {
+    }
 
     public function extractTitle(Crawler $document): string
     {
@@ -23,7 +26,7 @@ class ChapterContentExtractor
 
         return sprintf(
             '<h1 id="%s">%s %s</h1>',
-            $this->urlConverter->urlToInternal((string) $document->getUri()),
+            $this->urlConverter->urlToInternal((string)$document->getUri()),
             $chapterNumber,
             $title
         );
@@ -35,7 +38,7 @@ class ChapterContentExtractor
         $body = '';
 
         foreach ($document->filter('.content')->children() as $child) {
-            if (!($child instanceof \DOMElement) || !($child->ownerDocument instanceof \DOMNode)) {
+            if (!($child instanceof DOMElement) || !($child->ownerDocument instanceof DOMNode)) {
                 continue;
             }
             if ($child->tagName !== 'template' && $child->tagName !== 'footer' && $child->tagName !== 'nav') {
@@ -45,6 +48,4 @@ class ChapterContentExtractor
 
         return $body;
     }
-
-
 }

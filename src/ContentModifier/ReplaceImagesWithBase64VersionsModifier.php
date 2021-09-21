@@ -1,9 +1,10 @@
-<?php declare(strict_types=1);
+<?php
 
+declare(strict_types=1);
 
 namespace J6s\ShapeUpDownloader\ContentModifier;
 
-
+use Exception;
 use J6s\ShapeUpDownloader\Service\QueryService;
 use Symfony\Component\DomCrawler\Crawler;
 
@@ -17,7 +18,8 @@ class ReplaceImagesWithBase64VersionsModifier implements PageContentModifier
 
     public function __construct(
         private QueryService $queryService
-    ) { }
+    ) {
+    }
 
     public function modify(Crawler $document, array $urls): Crawler
     {
@@ -31,7 +33,7 @@ class ReplaceImagesWithBase64VersionsModifier implements PageContentModifier
                 }
             }
             if ($mimeType === null) {
-                throw new \Exception('Could not determine mime type for ' . $imageUri);
+                throw new Exception('Could not determine mime type for ' . $imageUri);
             }
 
             $base64 = sprintf(

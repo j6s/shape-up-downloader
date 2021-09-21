@@ -1,17 +1,18 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace J6s\ShapeUpDownloader\ContentModifier;
 
 use J6s\ShapeUpDownloader\Service\UrlConverter;
 use Symfony\Component\DomCrawler\Crawler;
-use function Safe\parse_url;
-use function Safe\preg_replace;
 
 class ReplaceLinksWithInternalLinksModifier implements PageContentModifier
 {
     public function __construct(
         private UrlConverter $urlConverter
-    ) { }
+    ) {
+    }
 
     public function modify(Crawler $document, array $urls): Crawler
     {
@@ -26,7 +27,6 @@ class ReplaceLinksWithInternalLinksModifier implements PageContentModifier
                 // If it already is a hash-based link
                 $uri = substr($uri, $index);
             }
-
 
             $link->getNode()->setAttribute('href', $uri);
         }

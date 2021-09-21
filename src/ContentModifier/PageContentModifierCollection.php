@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace J6s\ShapeUpDownloader\ContentModifier;
 
@@ -9,7 +11,8 @@ class PageContentModifierCollection implements PageContentModifier
     /** @param iterable<PageContentModifier> $modifiers */
     public function __construct(
         private iterable $modifiers
-    ) { }
+    ) {
+    }
 
     public function modify(Crawler $document, array $urls): Crawler
     {

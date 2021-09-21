@@ -1,21 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace J6s\ShapeUpDownloader\Command;
 
 use J6s\ShapeUpDownloader\ContentModifier\PageContentModifier;
-use J6s\ShapeUpDownloader\ContentModifier\ReplaceImagesWithBase64VersionsModifier;
-use J6s\ShapeUpDownloader\ContentModifier\ReplaceLinksWithInternalLinksModifier;
 use J6s\ShapeUpDownloader\Service\ChapterContentExtractor;
 use J6s\ShapeUpDownloader\Service\ChapterUrlProvider;
 use J6s\ShapeUpDownloader\Service\QueryService;
 use J6s\ShapeUpDownloader\Service\TableOfContentsExtractor;
-use J6s\ShapeUpDownloader\Service\UrlConverter;
 use Symfony\Component\Cache\Adapter\AbstractAdapter;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\DomCrawler\Crawler;
+
+use function count;
 use function Safe\file_get_contents;
 
 class DownloadSingleHtmlCommand extends Command
@@ -25,9 +25,9 @@ class DownloadSingleHtmlCommand extends Command
     protected static $defaultName = 'download:single-html';
 
     public function __construct(
-        private QueryService             $queryService,
-        protected AbstractAdapter        $cache,
-        private PageContentModifier      $contentModifier,
+        private QueryService $queryService,
+        protected AbstractAdapter $cache,
+        private PageContentModifier $contentModifier,
         private TableOfContentsExtractor $tocExtractor,
         private ChapterContentExtractor $chapterContentExtractor
     ) {
@@ -41,7 +41,7 @@ class DownloadSingleHtmlCommand extends Command
         $overviewPage = $this->contentModifier->modify($overviewPage, $urls);
 
         $progress = new ProgressBar($output);
-        $progress->start(\count($urls));
+        $progress->start(count($urls));
 
         $body = $this->getStyle();
         $body .= $this->tocExtractor->extractTableOfContentsHtml($overviewPage, $urls);
