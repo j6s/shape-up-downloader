@@ -2,6 +2,18 @@
 require __DIR__.'/vendor/autoload.php';
 
 use Symfony\Component\Console\Application;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
+
+$container = new ContainerBuilder();
+$loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/src'));
+$loader->load('services.xml');
+
+$container->compile();
+
 $application = new Application();
-$application->add(new \J6s\ShapeUpDownloader\DownloadSingleHtmlCommand());
+foreach (array_keys($container->findTaggedServiceIds('console.command')) as $service) {
+    $application->add($container->get($service));
+}
 $application->run();

@@ -1,6 +1,6 @@
 <?php
 
-namespace J6s\ShapeUpDownloader;
+namespace J6s\ShapeUpDownloader\Command;
 
 use Generator;
 use Symfony\Component\Cache\Adapter\AbstractAdapter;
