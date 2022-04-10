@@ -1,0 +1,33 @@
+name: "php"
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  phpcs:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-version: [ '8.0', '8.1' ]
+    steps:
+      # Setup PHP
+      - name: Setup PHP ${{ matrix.php-version }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          tools: composer
+
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - run: composer install
+
+      - uses: tinovyatkin/action-php-codesniffer@v1
+        with:
+          files: "src/**.php"
+          phpcs_path: php ./vendor/bin/phpcs
+          standard: phpcs.xml
+
+      - run: ./vendor/bin/psalm --output-format=github
