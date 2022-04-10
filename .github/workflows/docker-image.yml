@@ -22,7 +22,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v3
         with:
-          images: ${{ secrets.DOCKERHUB_USERNAME }}/brother-exporter
+          images: ${{ secrets.DOCKERHUB_USERNAME }}/shape-up-downloader
       -
         name: Build and push
         uses: docker/build-push-action@v2
