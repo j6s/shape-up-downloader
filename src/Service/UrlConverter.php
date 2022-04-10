@@ -15,7 +15,10 @@ class UrlConverter
 
     public function urlToInternal(string $url): string
     {
-        $path = trim((string)parse_url($url, PHP_URL_PATH), '/');
+        /** @var string $path */
+        $path = parse_url($url, PHP_URL_PATH);
+        $path = trim($path, '/');
+
         return $this->regex->replace('/\W+/', '-', $path);
     }
 }
