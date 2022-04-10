@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-version: [ '8.0', '8.1' ]
+        php-version: [ '8.1' ]
     steps:
       # Setup PHP
       - name: Setup PHP ${{ matrix.php-version }}
