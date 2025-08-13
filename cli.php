@@ -20,6 +20,7 @@ try {
     $container->compile();
 
     foreach (array_keys($container->findTaggedServiceIds('console.command')) as $service) {
+        // @phpstan-ignore argument.type
         $application->add($container->get($service));
     }
     $application->run($input, $output);

@@ -5,8 +5,13 @@ declare(strict_types=1);
 namespace J6s\ShapeUpDownloader\ContentModifier;
 
 use Exception;
+use J6s\ShapeUpDownloader\Exceptions\ModificationException;
+use J6s\ShapeUpDownloader\Exceptions\RequestException;
 use J6s\ShapeUpDownloader\Service\QueryService;
+use Safe\Exceptions\PcreException;
 use Symfony\Component\DomCrawler\Crawler;
+
+use function Safe\preg_match;
 
 class ReplaceImagesWithBase64VersionsModifier implements PageContentModifier
 {
@@ -23,23 +28,32 @@ class ReplaceImagesWithBase64VersionsModifier implements PageContentModifier
 
     public function modify(Crawler $document, array $urls): Crawler
     {
-        foreach ($document->filter('img')->images() as $image) {
+        try {
+            $images = $document->filter('img')->images();
+        } catch (\LogicException $e) {
+            throw new ModificationException(
+                sprintf('Cannot extract images from the document: %s', $e->getMessage()),
+                previous: $e
+            );
+        }
+
+        foreach ($images as $image) {
             $imageUri = $image->getUri();
-            $mimeType = null;
-            foreach (self::FILE_TYPES as $regex => $mime) {
-                if (preg_match($regex, $imageUri)) {
-                    $mimeType = $mime;
-                    break;
-                }
-            }
-            if ($mimeType === null) {
-                throw new Exception('Could not determine mime type for ' . $imageUri);
+            $mimeType = $this->getMimeType($imageUri);
+
+            try {
+                $imageContent = $this->queryService->cachedRequest($imageUri);
+            } catch (RequestException $e) {
+                throw new ModificationException(
+                    sprintf('Failed to fetch image from URL "%s": %s', $imageUri, $e->getMessage()),
+                    previous: $e
+                );
             }
 
             $base64 = sprintf(
                 'data:%s;base64,%s',
                 $mimeType,
-                base64_encode($this->queryService->cachedRequest($imageUri))
+                base64_encode($imageContent)
             );
 
             $node = $image->getNode();
@@ -54,5 +68,29 @@ class ReplaceImagesWithBase64VersionsModifier implements PageContentModifier
         }
 
         return $document;
+    }
+
+    /**
+     * @throws ModificationException
+     */
+    private function getMimeType(string $imageUri): string
+    {
+        foreach (self::FILE_TYPES as $regex => $mime) {
+            try {
+                if (preg_match($regex, $imageUri)) {
+                    return $mime;
+                }
+            } catch (PcreException $e) {
+                throw new ModificationException(sprintf(
+                    'Failed to match regex "%s" against image URI "%s" to check if it is of type "%s": %s',
+                    $regex,
+                    $imageUri,
+                    $mime,
+                    $e->getMessage()
+                ), previous: $e);
+            }
+        }
+
+        throw new ModificationException('Could not determine mime type for ' . $imageUri);
     }
 }

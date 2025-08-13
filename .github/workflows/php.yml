@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-version: [ '8.1' ]
+        php-version: [ '8.4' ]
     steps:
       # Setup PHP
       - name: Setup PHP ${{ matrix.php-version }}
@@ -30,4 +30,4 @@ jobs:
           phpcs_path: php ./vendor/bin/phpcs
           standard: phpcs.xml
 
-      - run: ./vendor/bin/psalm --output-format=github
+      - run: ./vendor/bin/phpstan --error-format=github
