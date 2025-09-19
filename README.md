@@ -1,3 +1,35 @@
+
+<div align="right">
+  <details>
+    <summary >🌐 Language</summary>
+    <div>
+      <div align="center">
+        <a href="https://openaitx.github.io/view.html?user=j6s&project=shape-up-downloader&lang=en">English</a>
+        | <a href="https://openaitx.github.io/view.html?user=j6s&project=shape-up-downloader&lang=zh-CN">简体中文</a>
+        | <a href="https://openaitx.github.io/view.html?user=j6s&project=shape-up-downloader&lang=zh-TW">繁體中文</a>
+        | <a href="https://openaitx.github.io/view.html?user=j6s&project=shape-up-downloader&lang=ja">日本語</a>
+        | <a href="https://openaitx.github.io/view.html?user=j6s&project=shape-up-downloader&lang=ko">한국어</a>
+        | <a href="https://openaitx.github.io/view.html?user=j6s&project=shape-up-downloader&lang=hi">हिन्दी</a>
+        | <a href="https://openaitx.github.io/view.html?user=j6s&project=shape-up-downloader&lang=th">ไทย</a>
+        | <a href="https://openaitx.github.io/view.html?user=j6s&project=shape-up-downloader&lang=fr">Français</a>
+        | <a href="https://openaitx.github.io/view.html?user=j6s&project=shape-up-downloader&lang=de">Deutsch</a>
+        | <a href="https://openaitx.github.io/view.html?user=j6s&project=shape-up-downloader&lang=es">Español</a>
+        | <a href="https://openaitx.github.io/view.html?user=j6s&project=shape-up-downloader&lang=it">Italiano</a>
+        | <a href="https://openaitx.github.io/view.html?user=j6s&project=shape-up-downloader&lang=ru">Русский</a>
+        | <a href="https://openaitx.github.io/view.html?user=j6s&project=shape-up-downloader&lang=pt">Português</a>
+        | <a href="https://openaitx.github.io/view.html?user=j6s&project=shape-up-downloader&lang=nl">Nederlands</a>
+        | <a href="https://openaitx.github.io/view.html?user=j6s&project=shape-up-downloader&lang=pl">Polski</a>
+        | <a href="https://openaitx.github.io/view.html?user=j6s&project=shape-up-downloader&lang=ar">العربية</a>
+        | <a href="https://openaitx.github.io/view.html?user=j6s&project=shape-up-downloader&lang=fa">فارسی</a>
+        | <a href="https://openaitx.github.io/view.html?user=j6s&project=shape-up-downloader&lang=tr">Türkçe</a>
+        | <a href="https://openaitx.github.io/view.html?user=j6s&project=shape-up-downloader&lang=vi">Tiếng Việt</a>
+        | <a href="https://openaitx.github.io/view.html?user=j6s&project=shape-up-downloader&lang=id">Bahasa Indonesia</a>
+        | <a href="https://openaitx.github.io/view.html?user=j6s&project=shape-up-downloader&lang=as">অসমীয়া</
+      </div>
+    </div>
+  </details>
+</div>
+
 # Shape up downloader
 
 ## What does it do?
