@@ -75,9 +75,10 @@ class ReplaceImagesWithBase64VersionsModifier implements PageContentModifier
      */
     private function getMimeType(string $imageUri): string
     {
+        $path = parse_url($imageUri, PHP_URL_PATH) ?? $imageUri; 
         foreach (self::FILE_TYPES as $regex => $mime) {
             try {
-                if (preg_match($regex, $imageUri)) {
+                if (preg_match($regex, $path)) {
                     return $mime;
                 }
             } catch (PcreException $e) {
